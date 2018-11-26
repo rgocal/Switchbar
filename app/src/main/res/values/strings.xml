@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SwitchBar</string>
+    <string name="switch_off_text">Switchbar Off</string>
+    <string name="switch_on_text">Switchbar On</string>
+</resources>
