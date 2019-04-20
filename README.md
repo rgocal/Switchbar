@@ -12,7 +12,7 @@ Add these correctly to your gradle setup files.
 	}
 
     	dependencies {
-	        implementation 'com.github.rgocal:Switchbar:1.00'
+		implementation 'com.github.rgocal:Switchbar:V1.1'
 	}
 
 In your layout you plan to add a Switchbar, its recommended to use it as your actionbar in a fragment or below your toolbar.
@@ -31,11 +31,11 @@ In your Activity, Add the following! posMessage and negMessage are just strings.
         switchBar.show();
 
         //Set the on and off Messages
-        switchBar.setOnMessage(posMessage);
-        switchBar.setOffMessage(negMessage);
+        switchBar.setOnMessage("Switchbar on!");
+        switchBar.setOffMessage("Switchbar off!");
+	
         //Set the on and off Background Colors
-        //It's suggested to use the Primary and DarkPrimary colors of your application
-        //as the switch uses the Accent Color
+        //Override the switchbar style to change the switch tint
         switchBar.setSwitchbarOnBackground(R.color.colorPrimary);
         switchBar.setSwitchbarOffBackground(R.color.colorPrimaryDark);
 
