@@ -1,5 +1,5 @@
 # Switchbar
-Google's Swtichbar layout widget recreated for personal use! Want a preview? Open up your android settings, navigate to wireless settings, open up your wifi settings, and woolah! That's a switchbar!
+Google's Switchbar layout widget recreated for personal use! Want a preview? Open up your android settings, navigate to wireless settings, open up your wifi settings, and woolah! That's a switchbar!
 
 # Let's get setup
 Add these correctly to your gradle setup files.
