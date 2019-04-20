@@ -12,7 +12,7 @@ Add these correctly to your gradle setup files.
 	}
 
     	dependencies {
-		implementation 'com.github.rgocal:Switchbar:V1.1'
+		implementation 'com.github.rgocal:Switchbar:1.2'
 	}
 
 In your layout you plan to add a Switchbar, its recommended to use it as your actionbar in a fragment or below your toolbar.
