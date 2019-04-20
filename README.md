@@ -19,8 +19,6 @@ In your layout you plan to add a Switchbar, its recommended to use it as your ac
 
     <com.gocalsd.switchbar.SwitchBar
             android:id="@+id/switchBar"
-            android:layout_gravity="top"
-            android:layout_marginTop="56dp"
             android:layout_width="match_parent"
             android:layout_height="56dp"/>
             
