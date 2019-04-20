@@ -1,5 +1,6 @@
 package com.gocalsd.switchbarexample;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -35,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         //Set the on and off Messages
         switchBar.setOnMessage(posMessage);
         switchBar.setOffMessage(negMessage);
+
         //Set the on and off Background Colors
-        //It's suggested to use the Primary and DarkPrimary colors of your application
-        //as the switch uses the Accent Color
+        //If you want to theme the Switch, override the style
         switchBar.setSwitchbarOnBackground(R.color.colorPrimary);
         switchBar.setSwitchbarOffBackground(R.color.colorPrimaryDark);
 

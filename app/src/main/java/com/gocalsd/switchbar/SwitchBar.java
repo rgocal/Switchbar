@@ -1,7 +1,13 @@
 package com.gocalsd.switchbar;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
@@ -28,13 +34,13 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
     private ToggleSwitch mSwitch;
     private TextView mTextView;
     private String switchOn, switchOff;
-    private int mSwitchColor;
+    private int mBackgroundSwitchColor;
     private Drawable switchbarBackground, wrappedBackground, wrappedBackgroundTwo;
 
     private ArrayList<OnSwitchChangeListener> mSwitchChangeListeners =
-            new ArrayList<OnSwitchChangeListener>();
+            new ArrayList<>();
 
-    public static interface OnSwitchChangeListener {
+    public interface OnSwitchChangeListener {
         /**
          * Called when the checked state of the Switch has changed.
          *
@@ -56,23 +62,23 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
     }
 
     public void setSwitchbarOnBackground(int backgroundColor){
-        this.mSwitchColor = ContextCompat.getColor(getContext(), backgroundColor);
+        this.mBackgroundSwitchColor = ContextCompat.getColor(getContext(), backgroundColor);
 
         switchbarBackground = ContextCompat.getDrawable(getContext(), R.drawable.switchbar_bkg);
         assert switchbarBackground != null;
         wrappedBackground = DrawableCompat.wrap(switchbarBackground);
-        DrawableCompat.setTint(wrappedBackground, mSwitchColor);
+        DrawableCompat.setTint(wrappedBackground, mBackgroundSwitchColor);
         wrappedBackground.invalidateSelf();
         wrappedBackground.mutate();
     }
 
     public void setSwitchbarOffBackground(int backgroundColor){
-        this.mSwitchColor = ContextCompat.getColor(getContext(), backgroundColor);
+        this.mBackgroundSwitchColor = ContextCompat.getColor(getContext(), backgroundColor);
 
         switchbarBackground = ContextCompat.getDrawable(getContext(), R.drawable.switchbar_bkg);
         assert switchbarBackground != null;
         wrappedBackgroundTwo = DrawableCompat.wrap(switchbarBackground);
-        DrawableCompat.setTint(wrappedBackgroundTwo, mSwitchColor);
+        DrawableCompat.setTint(wrappedBackgroundTwo, mBackgroundSwitchColor);
         wrappedBackgroundTwo.invalidateSelf();
         wrappedBackgroundTwo.mutate();
     }
@@ -89,7 +95,7 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
         switchOff = String.valueOf(R.string.switch_off_text);
         switchOn = String.valueOf(R.string.switch_on_text);
 
-        mSwitch = (ToggleSwitch) findViewById(R.id.switch_widget);
+        mSwitch = findViewById(R.id.switch_widget);
         // Prevent onSaveInstanceState() to be called as we are managing the state of the Switch
         // on our own
         mSwitch.setSaveEnabled(false);
@@ -198,6 +204,7 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
         SavedState(Parcelable superState) {
             super(superState);
         }
+
         /**
          * Constructor called from {@link #CREATOR}
          */

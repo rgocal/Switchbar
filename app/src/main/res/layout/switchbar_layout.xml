@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-
     <com.gocalsd.switchbar.GoogleTextView
         android:id="@+id/switch_text"
         android:text="Switchbar"
@@ -9,14 +8,13 @@
         android:layout_weight="1"
         android:layout_marginStart="56dp"
         android:layout_gravity="center_vertical|start"
-        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Widget.ActionBar.Title" />
+        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
     <com.gocalsd.switchbar.ToggleSwitch
         android:id="@+id/switch_widget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
-        android:layout_marginEnd="28dp"
-        android:background="@null" />
-
+        android:theme="@style/ToggleSwitchTheme"
+        android:layout_marginEnd="28dp" />
 </merge>
