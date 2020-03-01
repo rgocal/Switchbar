@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Switch;
 
-public class ToggleSwitch extends Switch {
+import com.google.android.material.switchmaterial.SwitchMaterial;
+
+public class ToggleSwitch extends SwitchMaterial {
 
     private ToggleSwitch.OnBeforeCheckedChangeListener mOnBeforeListener;
 
@@ -24,7 +26,7 @@ public class ToggleSwitch extends Switch {
     }
 
     public ToggleSwitch(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(context, attrs, defStyleAttr);
     }
 
     public void setOnBeforeCheckedChangeListener(OnBeforeCheckedChangeListener listener) {

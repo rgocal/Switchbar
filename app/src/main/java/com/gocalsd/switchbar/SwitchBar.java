@@ -3,39 +3,36 @@ package com.gocalsd.switchbar;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.shape.MaterialShapeDrawable;
 
 import java.util.ArrayList;
 
 /**
  * Google's Switchbar layout widget modified for customization and personal use
  * Modified by Ryan Gocal
- * Fin
+ * Refactored with AndroidX and Material Components
  */
 
-public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedChangeListener,
+public class SwitchBar extends LinearLayoutCompat implements CompoundButton.OnCheckedChangeListener,
         View.OnClickListener {
 
     private ToggleSwitch mSwitch;
     private TextView mTextView;
     private String switchOn, switchOff;
     private int mBackgroundSwitchColor;
-    private Drawable switchbarBackground, wrappedBackground, wrappedBackgroundTwo;
+    private MaterialShapeDrawable backgroundDrawableOn, backgroundDrawableOff;
+    private int onColor, offColor;
 
     private ArrayList<OnSwitchChangeListener> mSwitchChangeListeners =
             new ArrayList<>();
@@ -43,71 +40,78 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
     public interface OnSwitchChangeListener {
         /**
          * Called when the checked state of the Switch has changed.
-         *
-         * @param switchView The Switch view whose state has changed.
+         *  @param switchView The Switch view whose state has changed.
          * @param isChecked  The new checked state of switchView.
          */
-        void onSwitchChanged(Switch switchView, boolean isChecked);
+        void onSwitchChanged(ToggleSwitch switchView, boolean isChecked);
     }
+
+    public void setSwitchbarOnBackground(int backgroundColor){
+        int newColor = ContextCompat.getColor(getContext(), backgroundColor);
+        this.onColor = newColor;
+        this.mBackgroundSwitchColor = newColor;
+        backgroundDrawableOn.setTint(newColor);
+        backgroundDrawableOn.setElevation(8);
+        backgroundDrawableOn.setCornerSize(0);
+    }
+
+    public void setSwitchbarOffBackground(int backgroundColor){
+        int newColor = ContextCompat.getColor(getContext(), backgroundColor);
+        this.offColor = newColor;
+        this.mBackgroundSwitchColor = newColor;
+        backgroundDrawableOff.setTint(newColor);
+        backgroundDrawableOff.setElevation(8);
+        backgroundDrawableOff.setCornerSize(0);
+    }
+
     public SwitchBar(Context context) {
         this(context, null);
     }
 
     public SwitchBar(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        this(context, attrs, R.attr.switchStyle);
     }
 
     public SwitchBar(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public void setSwitchbarOnBackground(int backgroundColor){
-        this.mBackgroundSwitchColor = ContextCompat.getColor(getContext(), backgroundColor);
-
-        switchbarBackground = ContextCompat.getDrawable(getContext(), R.drawable.switchbar_bkg);
-        assert switchbarBackground != null;
-        wrappedBackground = DrawableCompat.wrap(switchbarBackground);
-        DrawableCompat.setTint(wrappedBackground, mBackgroundSwitchColor);
-        wrappedBackground.invalidateSelf();
-        wrappedBackground.mutate();
-    }
-
-    public void setSwitchbarOffBackground(int backgroundColor){
-        this.mBackgroundSwitchColor = ContextCompat.getColor(getContext(), backgroundColor);
-
-        switchbarBackground = ContextCompat.getDrawable(getContext(), R.drawable.switchbar_bkg);
-        assert switchbarBackground != null;
-        wrappedBackgroundTwo = DrawableCompat.wrap(switchbarBackground);
-        DrawableCompat.setTint(wrappedBackgroundTwo, mBackgroundSwitchColor);
-        wrappedBackgroundTwo.invalidateSelf();
-        wrappedBackgroundTwo.mutate();
-    }
-
     public SwitchBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.switchbar_layout, this);
         canAnimate();
-        mTextView = findViewById(R.id.switch_text);
-        mTextView.setText(R.string.switch_off_text);
+        mTextView = (TextView) getChildAt(0);
+        mSwitch = (ToggleSwitch) getChildAt(1);
 
-        setBackground(switchbarBackground);
+        backgroundDrawableOn = new MaterialShapeDrawable();
+        backgroundDrawableOff = new MaterialShapeDrawable();
 
-        switchOff = String.valueOf(R.string.switch_off_text);
-        switchOn = String.valueOf(R.string.switch_on_text);
+        setBackground(backgroundDrawableOn);
+        mSwitch.setBackgroundTintList(ColorStateList.valueOf(mBackgroundSwitchColor));
 
-        mSwitch = findViewById(R.id.switch_widget);
+        mSwitch.setThumbTintList(ColorUtil.colorToStateList(ColorUtil.getDarkerShadeColor(onColor),
+                ColorUtil.getLighterShadeColor(onColor)));
+        mSwitch.setTrackTintList(ColorUtil.colorToStateList(ColorUtil.getDarkerShadeColor(offColor),
+                ColorUtil.getLighterShadeColor(offColor)));
+
         // Prevent onSaveInstanceState() to be called as we are managing the state of the Switch
         // on our own
         mSwitch.setSaveEnabled(false);
+
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setTextViewLabel(isChecked);
+            }
+        });
+
         addOnSwitchChangeListener(new OnSwitchChangeListener() {
             @Override
-            public void onSwitchChanged(Switch switchView, boolean isChecked) {
+            public void onSwitchChanged(ToggleSwitch switchView, boolean isChecked) {
                 setTextViewLabel(isChecked);
             }
         });
         setOnClickListener(this);
-        // Default is hide
-        setVisibility(View.GONE);
     }
 
     public void setOnMessage (String onMessage){
@@ -120,8 +124,22 @@ public class SwitchBar extends LinearLayout implements CompoundButton.OnCheckedC
 
     //Update the text and background by state
     public void setTextViewLabel(boolean isChecked) {
+        if(ColorUtil.isDark(offColor)){
+            mTextView.setTextColor(Color.WHITE);
+        }else{
+            mTextView.setTextColor(Color.BLACK);
+        }
         mTextView.setText(isChecked ? switchOn : switchOff);
-        setBackground(isChecked ? wrappedBackground : wrappedBackgroundTwo);
+        setBackground(isChecked ? backgroundDrawableOn : backgroundDrawableOff);
+
+        mSwitch.setThumbTintList(isChecked ? ColorUtil.colorToStateList(ColorUtil.getDarkerShadeColor(onColor),
+                ColorUtil.getLighterShadeColor(onColor)) : ColorUtil.colorToStateList(ColorUtil.getDarkerShadeColor(offColor),
+                ColorUtil.getDarkerShadeColor(offColor)));
+
+        mSwitch.setTrackTintList(isChecked ? ColorUtil.colorToStateList(ColorUtil.getLighterShadeColor(onColor),
+                ColorUtil.getLighterShadeColor(onColor)) : ColorUtil.colorToStateList(ColorUtil.getDarkerShadeColor(offColor),
+                ColorUtil.getDarkerShadeColor(offColor)));
+
     }
 
     public void setChecked(boolean checked) {

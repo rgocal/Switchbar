@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">SwitchbarExample</string>
     <string name="action_settings">Settings</string>
+
+    <string name="switch_on_string">Switchbar On</string>
+    <string name="switch_off_string">Switchbar Off</string>
 </resources>
