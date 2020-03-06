@@ -47,19 +47,16 @@ public class SwitchBar extends LinearLayoutCompat implements CompoundButton.OnCh
     }
 
     public void setSwitchbarOnBackground(int backgroundColor){
-        int newColor = ContextCompat.getColor(getContext(), backgroundColor);
-        this.onColor = newColor;
-        this.mBackgroundSwitchColor = newColor;
-        backgroundDrawableOn.setTint(newColor);
+        this.mBackgroundSwitchColor = backgroundColor;
+        backgroundDrawableOn.setTint(backgroundColor);
         backgroundDrawableOn.setElevation(8);
         backgroundDrawableOn.setCornerSize(0);
     }
 
     public void setSwitchbarOffBackground(int backgroundColor){
-        int newColor = ContextCompat.getColor(getContext(), backgroundColor);
-        this.offColor = newColor;
-        this.mBackgroundSwitchColor = newColor;
-        backgroundDrawableOff.setTint(newColor);
+        this.offColor = backgroundColor;
+        this.mBackgroundSwitchColor = backgroundColor;
+        backgroundDrawableOff.setTint(backgroundColor);
         backgroundDrawableOff.setElevation(8);
         backgroundDrawableOff.setCornerSize(0);
     }

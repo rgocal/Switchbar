@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="4"
     tools:context=".MainActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -18,5 +19,26 @@
             android:id="@+id/switchBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"/>
+
+        <com.gocalsd.switchbar.GoogleTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:gravity="center"
+            android:text="@string/action_details"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:layout_margin="16dp"
+            app:cardUseCompatPadding="true"
+            android:elevation="4dp">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/cast_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        </androidx.cardview.widget.CardView>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
