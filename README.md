@@ -25,32 +25,29 @@ In your layout you plan to add a Switchbar, its recommended to use it as your ac
             android:layout_width="match_parent"
             android:layout_height="56dp"/>
             
-In your Activity, Add the following! posMessage and negMessage are just strings. Theres really nothing to it! Treat it like a switch and your good to go!
+In your Activity, Add the switch, and set the following attributes
 
-    switchBar = findViewById(R.id.switchBar);
-
-        //Set the on and off Messages
-        switchBar.setOnMessage("Switchbar on!");
-        switchBar.setOffMessage("Switchbar off!");
-	
-        //Set the on and off Background Colors
-        //Override the switchbar style to change the switch tint
-        switchBar.setSwitchbarOnBackground(R.color.colorPrimary);
-        switchBar.setSwitchbarOffBackground(R.color.colorPrimaryDark);
+    	//Set the on and off Background Colors using Context
+        //If you want to theme the Switch, override the style
+        switchBar.setSwitchbarOnBackground(ContextCompat.getColor(getBaseContext(), R.color.colorPrimary));
+        switchBar.setSwitchbarOffBackground(ContextCompat.getColor(getBaseContext(), R.color.colorAccent));
 
         //Set the defaults
+        switchBar.setOnMessage("on String");
+        switchBar.setOffMessage("off String");
+
         switchBar.setChecked(true);
         switchBar.setTextViewLabel(true);
 
-        //Set the addOnSwitchChangeListener
-        switchBar.addOnSwitchChangeListener(new SwitchBar.OnSwitchChangeListener() {
+        //Set the add the Listener
+        switchBar.getSwitch().setOnBeforeCheckedChangeListener(new ToggleSwitch.OnBeforeCheckedChangeListener() {
             @Override
-            public void onSwitchChanged(Switch switchView, boolean isChecked) {
-                if(isChecked){
-                    //do something when checked on
+            public boolean onBeforeCheckedChanged(ToggleSwitch toggleSwitch, boolean checked) {
+                if(checked) {
+                    imageView.setBackgroundResource(R.drawable.cast_connected);
                 }else{
-                    //do something when checked off
+                    imageView.setBackgroundResource(R.drawable.cast_off);
                 }
-		
+                return false;
             }
         });
