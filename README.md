@@ -15,8 +15,13 @@ Add these correctly to your gradle setup files.
 	}
 
     	dependencies {
-	        implementation 'com.github.rgocal:Switchbar:2.00'
+	        implementation 'com.github.rgocal:Switchbar:2.10'
 	}
+	
+	
+	
+![Preview Image](./preview/switchbar_on.jpg?raw=true)
+![Preview Image](./preview/switchbar_off.jpg?raw=true)
 
 In your layout you plan to add a Switchbar, its recommended to use it as your actionbar in a fragment or below your toolbar. 56dp is the standard default size of a toolbar.
 
